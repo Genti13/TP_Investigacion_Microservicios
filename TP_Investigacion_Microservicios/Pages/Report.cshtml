@@ -1,0 +1,20 @@
+﻿@page
+@model TP_Investigacion_Microservicios.Pages.ReportModel
+@{
+    ViewData["Title"] = "Reporte";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-4">Generación de Reportes</h1>
+    <p class="text-muted">Presiona el botón para solicitarle un PDF interactivo al microservicio de Python.</p>
+
+    <hr class="my-4" />
+
+    <form method="post" asp-page-handler="GenerarReporte">
+        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+            Descargar Reporte PDF
+        </button>
+    </form>
+
+    <div asp-validation-summary="All" class="text-danger mt-3"></div>
+</div>

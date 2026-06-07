@@ -1,0 +1,103 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+body {
+    background-color: #f8fafc; /* Un gris neutro ultra-claro que descansa la vista */
+    color: #334155; /* Texto principal en gris oscuro en lugar de negro puro */
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar moderna y flotante */
+.navbar-custom {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    padding: 0.75rem 0;
+}
+
+    .navbar-custom .navbar-brand {
+        color: #0f172a !important; /* Azul casi negro */
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+    }
+
+        .navbar-custom .navbar-brand i {
+            color: #0284c7; /* Azul tecnológico para el icono */
+        }
+
+    /* Links de navegación estilizados */
+    .navbar-custom .nav-link {
+        color: #64748b !important; /* Gris intermedio */
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem !important;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px; /* Espacio entre icono y texto */
+    }
+
+        .navbar-custom .nav-link:hover {
+            color: #0284c7 !important; /* Cambia a azul al pasar el mouse */
+            background-color: #f0f9ff; /* Fondo celeste sutil */
+        }
+
+        /* Resalta el link de la página donde estás parado actualmente */
+        .navbar-custom .nav-item.active .nav-link,
+        .navbar-custom .nav-link.active {
+            color: #0284c7 !important;
+            background-color: #e0f2fe;
+            font-weight: 600;
+        }
+
+/* Contenedor principal con aire para respirar */
+.main-container {
+    margin-top: 1.5rem;
+    flex-grow: 1;
+}
+
+/* Footer elegante y minimalista */
+.footer-custom {
+    background-color: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    padding: 1.25rem 0;
+    margin-top: auto;
+}

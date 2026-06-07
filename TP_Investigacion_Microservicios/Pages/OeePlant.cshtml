@@ -1,0 +1,141 @@
+﻿@page
+@model TP_Investigacion_Microservicios.Pages.OeePlantModel
+@{
+    ViewData["Title"] = "Eficiencia de Planta (OEE)";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-2">📊 Estado de Eficiencia General (OEE)</h1>
+    <p class="text-muted mb-4">Monitoreo en tiempo real de los activos clave de manufactura provisto por el Microservicio Flask.</p>
+
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <div class="row">
+        @foreach (var equipo in Model.Equipos)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-truncate" style="max-width: 75%;">@equipo.Nombre</h5>
+                        <span class="badge bg-secondary">ID: @equipo.Id</span>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <p class="text-secondary small mb-2"><strong>Sector:</strong> @equipo.Area</p>
+
+                            <div class="position-relative my-4 mx-auto" style="width: 160px; height: 160px;">
+                                <canvas id="chartOee-@equipo.Id"></canvas>
+
+                                <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                    <span class="fw-bold fs-3">@equipo.Oee%</span>
+                                    <br />
+                                    <small class="text-muted" style="font-size: 10px; font-weight: bold; letter-spacing: 1px;">OEE</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small mb-1">
+                                    <span>⏱️ Disponibilidad</span>
+                                    <span class="fw-bold">@equipo.Disponibilidad%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-primary"
+                                         role="progressbar"
+                                         style="width: @equipo.Disponibilidad.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)%;"
+                                         aria-valuenow="@equipo.Disponibilidad"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small mb-1">
+                                    <span>⚡ Rendimiento</span>
+                                    <span class="fw-bold">@equipo.Rendimiento%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-info"
+                                         role="progressbar"
+                                         style="width: @equipo.Rendimiento.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)%;"
+                                         aria-valuenow="@equipo.Rendimiento"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small mb-1">
+                                    <span>🎯 Calidad</span>
+                                    <span class="fw-bold">@equipo.Calidad%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-secondary"
+                                         role="progressbar"
+                                         style="width: @equipo.Calidad.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)%;"
+                                         aria-valuenow="@equipo.Calidad"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // 1. Cargamos de forma segura la lista de equipos mapeada desde C#
+        const listaEquipos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                Model.Equipos,
+                new System.Text.Json.JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping }
+            ));
+
+        // 2. Iteramos en JavaScript sobre cada equipo para renderizar su círculo individual
+        listaEquipos.forEach(equipo => {
+        const ctx = document.getElementById(`chartOee-${equipo.id}`).getContext('2d');
+
+        // Calculamos el resto para completar el 100% del gráfico circular
+        const oeeValor = equipo.oee;
+        const restoCírculo = Math.max(0, 100 - oeeValor);
+
+        // Definimos el color del medidor según las reglas de clase mundial
+        let colorMedidor = '#dc3545'; // Rojo crítico (<65%)
+        if (oeeValor >= 85) {
+        colorMedidor = '#198754'; // Verde óptimo (>=85%)
+        } else if (oeeValor >= 65) {
+        colorMedidor = '#ffc107'; // Amarillo aceptable
+        }
+
+        new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+        datasets: [{
+        data: [oeeValor, restoCírculo],
+        backgroundColor: [colorMedidor, '#e9ecef'], // Color OEE vs Color de fondo vacío
+        borderWidth: 0,
+        borderRadius: oeeValor >= 100 ? 0 : [10, 0] // Puntas redondeadas para la barra de carga
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        cutout: '80%', // Hace el círculo más fino para que entre el texto en el medio
+        plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false } // Desactivamos el tooltip para que no moleste al pasar el mouse
+        }
+        }
+        });
+        });
+    </script>
+}

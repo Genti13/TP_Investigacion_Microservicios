@@ -1,0 +1,113 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Panel de Control Central";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-5 bg-white rounded-4 shadow-sm border border-light-subtle position-relative overflow-hidden">
+            <div class="position-absolute top-0 start-0 w-100" style="height: 4px; background: linear-gradient(90deg, #0284c7, #06b6d4);"></div>
+            
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <span class="badge bg-info-subtle text-info-emphasis fw-semibold px-3 py-2 rounded-pill mb-3">
+                        <i class="bi bi-shield-check-fill me-1"></i> Ecosistema Conectado · v2.0
+                    </span>
+                    <h1 class="display-5 fw-bold text-slate mb-2">Plataforma de Telemetría Industrial</h1>
+                    <p class="fs-5 text-secondary mb-0">
+                        Sistema distribuido de supervisión y análisis de eficiencia en planta para el control de activos en tiempo real.
+                    </p>
+                </div>
+                <div class="col-md-4 text-center d-none d-md-block">
+                    <i class="bi bi-望远镜 text-body-tertiary" style="font-size: 6rem; color: #e2e8f0 !important;"></i>
+                    <i class="bi bi-cpu-fill text-primary-emphasis" style="font-size: 5rem; color: #0284c7 !important;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="fw-bold text-slate mb-3"><i class="bi bi-grid-1x2-fill me-2 text-primary"></i>Módulos del Sistema</h4>
+<div class="row mb-5">
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm border-light-subtle rounded-4 bg-white transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between p-4">
+                <div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 bg-primary-subtle text-primary rounded-3 me-3">
+                            <i class="bi bi-speedometer2 fs-4"></i>
+                        </div>
+                        <h5 class="card-title fw-bold m-0">Telemetría Crítica</h5>
+                    </div>
+                    <p class="card-text text-secondary small">
+                        Visualización de variables continuas en tiempo real mediante gráficos de tendencia analíticos y volumetría de registros.
+                    </p>
+                </div>
+                <a asp-page="/Dashboard" class="btn btn-outline-primary btn-sm rounded-3 mt-3 w-100">
+                    Abrir Dashboard <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm border-light-subtle rounded-4 bg-white transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between p-4">
+                <div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 bg-warning-subtle text-warning-emphasis rounded-3 me-3">
+                            <i class="bi bi-cone-striped fs-4"></i>
+                        </div>
+                        <h5 class="card-title fw-bold m-0">Eficiencia OEE</h5>
+                    </div>
+                    <p class="card-text text-secondary small">
+                        Control de indicadores de Disponibilidad, Rendimiento y Calidad por equipo con medidores circulares dinámicos.
+                    </p>
+                </div>
+                <a asp-page="/OeePlant" class="btn btn-outline-warning btn-sm rounded-3 text-dark mt-3 w-100">
+                    Ver OEE de Planta <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm border-light-subtle rounded-4 bg-white transition-hover">
+            <div class="card-body d-flex flex-column justify-content-between p-4">
+                <div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 bg-secondary-subtle text-secondary-emphasis rounded-3 me-3">
+                            <i class="bi bi-file-earmark-pdf fs-4"></i>
+                        </div>
+                        <h5 class="card-title fw-bold m-0">Reportes PDF</h5>
+                    </div>
+                    <p class="card-text text-secondary small">
+                        Generación automática y descarga de documentos decorados con las últimas mediciones consolidadas desde la base de datos.
+                    </p>
+                </div>
+                <a asp-page="/Report" class="btn btn-outline-secondary btn-sm rounded-3 mt-3 w-100">
+                    Ir a Reportes <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="p-4 bg-light rounded-4 border border-light-subtle text-secondary">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-server me-2 text-info"></i>Infraestructura Tecnológica Decoupled</h5>
+            <p class="small mb-2">
+                Esta plataforma interactúa mediante una arquitectura desacoplada basada en <strong>Microservicios</strong>. Las peticiones del cliente son centralizadas y derivadas de forma transparente a través de un componente intermedio:
+            </p>
+            <ul class="small mb-0 ps-3">
+                <li class="mb-1"><strong>Frontend Web:</strong> Desarrollado en <code>ASP.NET Core Razor Pages</code> consumiendo endpoints unificados.</li>
+                <li class="mb-1"><strong>Capa de Abstracción:</strong> Enrutamiento reverso gestionado por <code>YARP API Gateway</code> en el puerto <code>8000</code>.</li>
+                <li class="mb-0"><strong>Motores Analíticos:</strong> Microservicios independientes construidos en <code>Python (Flask)</code> acoplados a bases de datos relacionales en <code>SQL Server</code>.</li>
+            </ul>
+        </div>
+    </div>
+</div>

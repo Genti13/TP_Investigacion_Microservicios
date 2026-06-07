@@ -1,0 +1,133 @@
+﻿@page
+@model TP_Investigacion_Microservicios.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard Analítico";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>@Model.Metricas.Titulo</h1>
+        <span class="badge bg-success p-2">Sistema: @Model.Metricas.EstadoSistema</span>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card bg-dark text-white shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Total de Unidades Procesadas (Histórico):</h5>
+                    <h2 class="display-6 mb-0 text-warning">@Model.Metricas.TotalProcesado</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-7 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">📈 Tendencia de Rendimiento</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoTendencia"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">📊 Volumetría por Registro</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <canvas id="graficoRadial"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        console.log("=== TRATANDO DE LEER LOS DATOS DESDE C# ===");
+
+        const datosBackend = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                Model.Metricas?.Datos,
+                new System.Text.Json.JsonSerializerOptions
+                {
+                    
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                }
+            ));
+
+        
+        const etiquetasHoras = Object.keys(datosBackend);
+        const valoresDecimales = Object.values(datosBackend);
+
+        // CONFIGURACIÓN DEL GRÁFICO DE TENDENCIA
+        const ctxTendencia = document.getElementById('graficoTendencia').getContext('2d');
+        new Chart(ctxTendencia, {
+        type: 'line',
+        data: {
+        labels: etiquetasHoras,
+        datasets: [{
+        label: 'Valor Registrado',
+        data: valoresDecimales, 
+        borderColor: '#0d6efd',
+        backgroundColor: 'rgba(13, 110, 253, 0.05)',
+        borderWidth: 2,
+        tension: 0.2, 
+        fill: true,
+        pointRadius: 3, 
+        pointHoverRadius: 6
+        }]
+        },
+        options: {
+        responsive: true,
+        scales: {
+        y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Valor Decimal' }
+        },
+        x: {
+        title: { display: true, text: 'Fecha y Hora del Registro' },
+        grid: { display: false } 
+        }
+        }
+        }
+        });
+
+        // CONFIGURACIÓN DEL SEGUNDO GRÁFICO (AHORA DE BARRAS)
+        const ctxBarras = document.getElementById('graficoRadial').getContext('2d');
+        new Chart(ctxBarras, {
+        type: 'bar', 
+        data: {
+        labels: etiquetasHoras,
+        datasets: [{
+        label: 'Magnitud por Registro',
+        data: valoresDecimales,
+        backgroundColor: 'rgba(25, 135, 84, 0.7)', 
+        borderColor: '#198754',
+        borderWidth: 1,
+        borderRadius: 4 
+        }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+        legend: { display: false } 
+        },
+        scales: {
+        y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Valor' }
+        },
+        x: {
+        grid: { display: false }
+        }
+        }
+        }
+        });
+    </script>
+}

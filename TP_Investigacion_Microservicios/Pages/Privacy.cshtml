@@ -1,0 +1,44 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Políticas de Seguridad y Privacidad";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="p-3 bg-danger-subtle text-danger rounded-3">
+                <i class="bi bi-shield-lock-fill fs-3"></i>
+            </div>
+            <div>
+                <h1 class="fw-bold text-slate m-0">Gobernanza de Datos y Seguridad</h1>
+                <p class="text-secondary m-0">Protocolos de confidencialidad y aislamiento para la arquitectura distribuida.</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-4 shadow-sm p-4 p-md-5 border border-light-subtle">
+            
+            <section class="mb-4">
+                <h5 class="fw-bold text-slate"><i class="bi bi-layers text-primary me-2"></i>1. Aislamiento de Capas (Data Isolation)</h5>
+                <p class="text-secondary small">
+                    Bajo el paradigma de microservicios implementado, la persistencia de datos cumple con el principio de almacenamiento aislado. La base de datos de Telemetría (<code>Assets_Measures</code>) y la base de datos de Eficiencia (<code>Assets_OEE</code>) operan de forma independiente, garantizando que una brecha o falla de consistencia en un dominio no comprometa la integridad de los activos restantes de la organización.
+                </p>
+            </section>
+
+            <section class="mb-4">
+                <h5 class="fw-bold text-slate"><i class="bi bi-incognito text-primary me-2"></i>2. Confidencialidad de Métricas Industriales</h5>
+                <p class="text-secondary small">
+                    Toda la información recolectada de los activos físicos de la planta —incluyendo tiempos de parada de máquinas, volúmenes de producción, tasas de descarte y el cálculo del factor <strong>OEE</strong>— es considerada propiedad intelectual crítica. El acceso a los endpoints expuestos por los microservicios en Flask está restringido y centralizado a través del componente unificado <strong>YARP API Gateway</strong>, impidiendo la exposición directa de las APIs internas a redes externas.
+                </p>
+            </section>
+
+            <section class="mb-4">
+                <h5 class="fw-bold text-slate"><i class="bi bi-file-earmark-check text-primary me-2"></i>3. Cumplimiento de Normativas y Auditorías</h5>
+                <p class="text-secondary small">
+                    Los reportes analíticos generados en formato PDF consolidan únicamente registros históricos confirmados por la base de datos y no almacenan cookies ni credenciales de usuario en el navegador local. La plataforma está diseñada para alinearse con las directrices básicas de trazabilidad requeridas en los entornos industriales digitalizados.
+                </p>
+            </section>
+
+        </div>
+    </div>
+</div>
