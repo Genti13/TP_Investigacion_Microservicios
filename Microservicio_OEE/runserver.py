@@ -1,14 +1,14 @@
 """
-This script runs the Microservicio_OEE application using a development server.
+This script runs the Microservicio_Reporte application using a development server.
 """
-
 from os import environ
 from Microservicio_OEE import app
 
 if __name__ == '__main__':
-    HOST = environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(environ.get('SERVER_PORT', '5555'))
-    except ValueError:
-        PORT = 5555
-    app.run(HOST, PORT)
+    # 🚀 CORRECCIÓN PARA DOCKER:
+    # 0.0.0.0 permite que el contenedor acepte conexiones desde afuera (el Gateway)
+    # El puerto 5000 es el que configuramos en el docker-compose
+    HOST = '0.0.0.0'
+    PORT = 5000
+    
+    app.run(host=HOST, port=PORT)

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.Urls.Add("http://localhost:5080");
+app.Urls.Add("http://0.0.0.0:5080");
 
 Console.WriteLine("[SISTEMA] Microservicio de Login inicializado en http://localhost:5080");
 

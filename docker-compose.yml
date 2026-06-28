@@ -1,0 +1,64 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  # Web App
+  web-razor:
+    build: ./TP_Investigacion_Microservicios
+    ports:
+      - "8080:8080"
+    depends_on:
+      - tp-apigateway
+    networks:
+      - app-network
+
+  # Gateway (YARP)
+  tp-apigateway:
+    build: ./TP_ApiGateway
+    ports:
+      - "8000:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    depends_on:
+      - ms-dashboard
+      - ms-login
+      - ms-reporte
+      - ms-oee
+    networks:
+      - app-network
+
+  # Microservicio Login
+  ms-login:
+    build: ./Microservicio_Login
+    environment:
+      - ASPNETCORE_URLS=http://+:5080
+    networks:
+      - app-network
+
+  # Microservicios
+  ms-reporte:
+    build: ./Microservicio_Reporte
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - DB_HOST=host.docker.internal
+    networks:
+      - app-network
+
+  ms-dashboard:
+    build: ./Microservicio_API
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - DB_HOST=host.docker.internal
+    networks:
+      - app-network
+
+  ms-oee:
+    build: ./Microservicio_OEE
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - DB_HOST=host.docker.internal
+    networks:
+      - app-network

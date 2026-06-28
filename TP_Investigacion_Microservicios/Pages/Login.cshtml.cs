@@ -28,7 +28,8 @@ namespace TP_Investigacion_Microservicios.Pages
 
             using var httpClient = new HttpClient();
 
-            string gatewayUrl = "http://127.0.0.1:8000/api/login";
+            //string gatewayUrl = "http://127.0.0.1:8000/api/login";
+            string gatewayUrl = "http://tp-apigateway:8080/api/login";
 
             var loginData = new
             {

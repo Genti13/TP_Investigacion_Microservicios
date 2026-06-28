@@ -19,7 +19,9 @@ namespace TP_Investigacion_Microservicios.Pages
             try
             {
                 //string pythonDashboardUrl = "http://localhost:5060/api/dashboard/metrics";
-                string pythonDashboardUrl = "http://localhost:8000/api/dashboard/metrics";
+                //string pythonDashboardUrl = "http://localhost:8000/api/dashboard/metrics";
+                string pythonDashboardUrl = "http://tp-apigateway:8080/api/dashboard/metrics";
+
                 var response = await _httpClient.GetAsync(pythonDashboardUrl);
                 if (response.IsSuccessStatusCode)
                 {

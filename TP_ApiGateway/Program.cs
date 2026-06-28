@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args); // Usa el Builder estándar pa
 // 1. Forzar a que el Gateway escuche en el puerto 8000
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenLocalhost(8000);
+    options.ListenAnyIP(8080);
 });
 
 // 2. Cargar el motor de YARP leyendo el archivo appsettings.json

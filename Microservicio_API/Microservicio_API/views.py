@@ -3,6 +3,7 @@ from Microservicio_API import app
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 import os
+import traceback
 
 load_dotenv()
 
@@ -11,8 +12,21 @@ PASSWORD = os.getenv("DB_PASSWORD")
 HOST = os.getenv("DB_HOST")
 DATABASE = os.getenv("DB_NAME")
 
-DATABASE_URL = f"mssql+pyodbc://{USER}:{PASSWORD}@{HOST}/{DATABASE}?driver=ODBC+Driver+17+for+SQL+Server"
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+# URL limpia
+DATABASE_URL = f"mssql+pyodbc://{USER}:{PASSWORD}@{HOST}/{DATABASE}"
+
+# Forzamos la configuración aquí
+connect_args = {
+    "driver": "ODBC Driver 17 for SQL Server",
+    "TrustServerCertificate": "yes", 
+    "Encrypt": "no" 
+}
+
+engine = create_engine(
+    DATABASE_URL,
+    connect_args=connect_args,
+    pool_pre_ping=True
+)
 
 @app.route('/api/dashboard/metrics', methods=['GET'])
 def obtener_metricas():
@@ -34,7 +48,9 @@ def obtener_metricas():
                 metricas_db[fecha_str] = valor
 
     except Exception as e:
-        return jsonify({"error": f"Error crítico en la base de datos del Dashboard: {str(e)}"}), 500
+        print("--- ERROR DETECTADO ---")
+        traceback.print_exc() 
+        return jsonify({"error": f"Error crítico: {str(e)}"}), 500
 
     if not metricas_db:
         metricas_db = {"Sin datos": 0.0}

@@ -21,7 +21,9 @@ namespace TP_Investigacion_Microservicios.Pages
             try
             {
                 //string pythonUrl = "http://localhost:5050/api/reportes/decorado";
-                string pythonUrl = "http://localhost:8000/api/reportes/decorado";
+                //string pythonUrl = "http://localhost:8000/api/reportes/decorado";
+                string pythonUrl = "http://tp-apigateway:8080/api/reportes/decorado";
+
                 var datosReporte = new
                 {
                     titulo = "Reporte de Investigación de Microservicios",

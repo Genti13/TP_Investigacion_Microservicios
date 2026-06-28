@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, text
 from Microservicio_OEE import app
 from dotenv import load_dotenv
 import os
+import traceback
 
 load_dotenv()
 
@@ -11,8 +12,21 @@ PASSWORD = os.getenv("DB_PASSWORD")
 HOST = os.getenv("DB_HOST")
 DATABASE = os.getenv("DB_NAME")
 
-DATABASE_URL = f"mssql+pyodbc://{USER}:{PASSWORD}@{HOST}/{DATABASE}?driver=ODBC+Driver+17+for+SQL+Server"
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+# URL limpia
+DATABASE_URL = f"mssql+pyodbc://{USER}:{PASSWORD}@{HOST}/{DATABASE}"
+
+# Forzamos la configuración aquí
+connect_args = {
+    "driver": "ODBC Driver 17 for SQL Server",
+    "TrustServerCertificate": "yes", 
+    "Encrypt": "no" 
+}
+
+engine = create_engine(
+    DATABASE_URL,
+    connect_args=connect_args,
+    pool_pre_ping=True
+)
 
 @app.route('/api/oee/all-equipment', methods=['GET'])
 def obtener_oee_todos_los_equipos():
@@ -71,4 +85,6 @@ def obtener_oee_todos_los_equipos():
             return jsonify(lista_equipos)
 
     except Exception as e:
+        print("--- ERROR DETECTADO ---")
+        traceback.print_exc() 
         return jsonify({"error": f"Error crítico: {str(e)}"}), 500

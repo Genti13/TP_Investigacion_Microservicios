@@ -21,7 +21,8 @@ namespace TP_Investigacion_Microservicios.Pages
             try
             {
                 //string urlOee = "http://localhost:5070/api/oee/all-equipment";
-                string urlOee = "http://localhost:8000/api/oee/all-equipment";
+                //string urlOee = "http://localhost:8000/api/oee/all-equipment";
+                string urlOee = "http://tp-apigateway:8080/api/oee/all-equipment";
 
                 var response = await _httpClient.GetAsync(urlOee);
 
