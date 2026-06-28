@@ -5,21 +5,21 @@ networks:
     driver: bridge
 
 services:
-  # Web App
+  # Web App - Unica entrada para el usuario final
   web-razor:
     build: ./TP_Investigacion_Microservicios
     ports:
-      - "8080:8080"
+      - "8080:8080" # Esto está bien, es tu frontend
     depends_on:
       - tp-apigateway
     networks:
       - app-network
 
-  # Gateway (YARP)
+  # Gateway - El único que necesita puerto hacia afuera
   tp-apigateway:
     build: ./TP_ApiGateway
-    ports:
-      - "8000:8080"
+    deploy:
+      replicas: 3
     environment:
       - ASPNETCORE_URLS=http://+:8080
     depends_on:
@@ -30,17 +30,21 @@ services:
     networks:
       - app-network
 
-  # Microservicio Login
+  # Los demás servicios NO tienen la sección 'ports'
+  # Docker se encarga de la comunicación interna automáticamente
   ms-login:
     build: ./Microservicio_Login
+    deploy:
+      replicas: 3
     environment:
       - ASPNETCORE_URLS=http://+:5080
     networks:
       - app-network
 
-  # Microservicios
   ms-reporte:
     build: ./Microservicio_Reporte
+    deploy:
+      replicas: 3
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - DB_HOST=host.docker.internal
@@ -49,6 +53,8 @@ services:
 
   ms-dashboard:
     build: ./Microservicio_API
+    deploy:
+      replicas: 3
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - DB_HOST=host.docker.internal
@@ -57,6 +63,8 @@ services:
 
   ms-oee:
     build: ./Microservicio_OEE
+    deploy:
+      replicas: 3
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - DB_HOST=host.docker.internal
