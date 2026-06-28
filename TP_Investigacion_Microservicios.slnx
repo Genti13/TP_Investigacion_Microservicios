@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Microservicio_API/Microservicio_API.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52" Id="7a1c5f06-9f9e-4713-901e-df03470166c4" />
+  <Project Path="Microservicio_Login/Microservicio_Login.csproj" Id="7afabaf8-b4f8-4ebe-b7ee-4b359c34ed14" />
   <Project Path="Microservicio_OEE/Microservicio_OEE.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52" Id="b7aef519-0501-4b31-a130-891c406f92d7" />
   <Project Path="Microservicio_Reporte/Microservicio_Reporte.pyproj" Type="888888a0-9f3d-457c-b088-3a5042f75d52" Id="10ccdd98-5588-4e99-8753-709d57c54878" />
   <Project Path="TP_ApiGateway/TP_ApiGateway.csproj" Id="c35e75bf-363f-4acd-bdfb-f32c7311c21b" />
